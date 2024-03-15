@@ -24,7 +24,7 @@ class Game {
 			{ name: "Player 5", color: "yellow", filledBoxes: 0 },
 			{ name: "Player 6", color: "orange", filledBoxes: 0 }
 		]
-
+		
 		let p = this.players.length - playersCount
 		for (let i = 0; i < p; i++)
 			this.players.pop()
@@ -60,22 +60,23 @@ class Game {
 
 			//Check for winner
 			if (this.players.every((p) => p.filledBoxes == play)) {
-				let drawSound = new Audio('https://drive.google.com/uc?export=download&id=1aGH8iWoJLrIhFrdOgRO1FQDZs2zlSUKe');
-				drawSound.play();
+				// let drawSound = new Audio('https://drive.google.com/uc?export=download&id=1aGH8iWoJLrIhFrdOgRO1FQDZs2zlSUKe');
+				// drawSound.play();
 				this.playerNameUI.parentElement.textContent = "Nobody wins"
 				this.playerTurnBgUI.classList.add("no-win")
 				this.playerTurnBgUI.style.background = "#eaeaea"
 			} else {
-				let winSound = new Audio('https://drive.google.com/uc?export=download&id=1DBRbc6x56SvfO1prnNhob6K5cVN_uaTO');
-				winSound.play();
-				this.playerNameUI.parentElement.textContent = `${player.name} wins`
+				// let winSound = new Audio('https://drive.google.com/uc?export=download&id=1DBRbc6x56SvfO1prnNhob6K5cVN_uaTO');
+				// winSound.play();
+				this.playerNameUI.parentElement.textContent = `${player.name} wins (TALENT)`
 				this.playerTurnBgUI.classList.add("win")
 				this.playerTurnBgUI.style.background = player.color
 			}
 		}, 500);
 		setTimeout(() => {
+
 			location.reload();
-		}, 5000);
+		}, 15000);
 	}
 
 	onPlayerSwitch() {
@@ -164,6 +165,10 @@ class Game {
 			this.invokeEvent("playerSwitch")
 		}
 	}
+	
+	calculateFitness(player) {
+		return player.filledBoxes;
+	}
 }
 
 // Declaring Global Variables
@@ -193,3 +198,4 @@ startBtn.addEventListener("click", () => {
 function calculate(value, min, max) {
 	return Math.min(Math.max(value, min), max)
 }
+

@@ -141,6 +141,13 @@ class Board {
 			right: (box.column < Board.COLUMNS - 1) ? this.boxes[box.row][box.column + 1] : null,
 			bottom: (box.row < Board.ROWS - 1) ? this.boxes[box.row + 1][box.column] : null,
 			left: (box.column > 0) ? this.boxes[box.row][box.column - 1] : null,
+			
+			// for rhombus shape
+			// topLeft: (box.row > 0 && box.column > 0) ? this.boxes[box.row - 1][box.column - 1] : null,
+			// topRight: (box.row > 0 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row - 1][box.column + 1] : null,
+			// bottomLeft: (box.row < Board.ROWS - 1 && box.column > 0) ? this.boxes[box.row + 1][box.column - 1] : null,
+			// bottomRight: (box.row < Board.ROWS - 1 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row + 1][box.column + 1] : null,
+		
 		}
 	}
 
@@ -176,8 +183,8 @@ class Board {
 	}
 
 	fillBoxes() {
-		let fill = new Audio('https://drive.google.com/uc?export=download&id=1oyKaTmcoS-ag5WEiBrT5fueRClQFDQWd');
-		fill.play();
+		// let fill = new Audio('https://drive.google.com/uc?export=download&id=1oyKaTmcoS-ag5WEiBrT5fueRClQFDQWd');
+		// fill.play();
 		if (this.adjacentBoxesToFill.length != 0) {
 			setTimeout(() => {
 				const box = this.adjacentBoxesToFill.shift()

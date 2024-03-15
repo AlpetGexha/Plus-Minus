@@ -37,6 +37,7 @@ a {
 	display: grid;
 	width: 60vh;
 	max-height: 60vh;
+	/* transform: rotate(45deg); */
 }
 
 @media screen and (max-width: 720px) {
@@ -49,6 +50,7 @@ a {
 	position: relative;
 	aspect-ratio: 1/1;
 	transition: background 500ms;
+	/* transform: rotate(-45deg); */
 }
 
 .box.filled::after {
