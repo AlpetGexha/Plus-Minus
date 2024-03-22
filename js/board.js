@@ -96,6 +96,7 @@ class Board {
 			this.isFillingAdjacentBoxes = true
 			this.fillBoxes()
 		}
+
 	}
 
 	onBoxFill(box) {
@@ -108,11 +109,16 @@ class Board {
 
 	//Board boxes
 	generateBoardBoxes() {
+		const middleColumn = Math.floor(Board.COLUMNS / 2);
+
 		for (let r = 0; r < Board.ROWS; r++)
 			for (let c = 0; c < Board.COLUMNS; c++) {
 				const box = new Box(r, c)
 				this.boxes[r][c] = box
 				this.uiRoot.appendChild(box.ui)
+				// if (r === 0 && c !== middleColumn) {
+				// 	box.fill(Game.instance.currentPlayer.color);
+				// }
 			}
 
 		//set each box adjacents and inverses
@@ -128,8 +134,19 @@ class Board {
 	generate() {
 		this.uiRoot.style.gridTemplate = `repeat(${Board.ROWS}, 1fr) / repeat(${Board.COLUMNS}, 1fr)`
 		this.generateBoardBoxes()
+		this.selectEdgesAtStart()
+		// this.disableFirstRowExceptMiddle()
+
 	}
 
+	disableFirstRowExceptMiddle() {
+		const middleColumn = Math.floor(Board.COLUMNS / 2);
+		for (let c = 0; c < Board.COLUMNS; c++) {
+			if (c !== middleColumn) {
+				this.boxes[0][c].ui.setAttribute('disabled', 'disabled');
+			}
+		}
+	}
 	getBoxAdjacents(box) {
 		//Getting the adjacent boxes
 		return {
@@ -141,13 +158,13 @@ class Board {
 			right: (box.column < Board.COLUMNS - 1) ? this.boxes[box.row][box.column + 1] : null,
 			bottom: (box.row < Board.ROWS - 1) ? this.boxes[box.row + 1][box.column] : null,
 			left: (box.column > 0) ? this.boxes[box.row][box.column - 1] : null,
-			
+
 			// for rhombus shape
 			// topLeft: (box.row > 0 && box.column > 0) ? this.boxes[box.row - 1][box.column - 1] : null,
 			// topRight: (box.row > 0 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row - 1][box.column + 1] : null,
 			// bottomLeft: (box.row < Board.ROWS - 1 && box.column > 0) ? this.boxes[box.row + 1][box.column - 1] : null,
 			// bottomRight: (box.row < Board.ROWS - 1 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row + 1][box.column + 1] : null,
-		
+
 		}
 	}
 
@@ -199,4 +216,31 @@ class Board {
 			}, 600)
 		}
 	}
+
+	selectEdgesAtStart() {
+		// Select the top edge of the first row
+		for (let c = 0; c < Board.COLUMNS; c++) {
+			this.boxes[0][c].edges.top.fill();
+			this.boxes[0][c].remainingEdges--;
+		}
+
+		// Select the bottom edge of the last row
+		for (let c = 0; c < Board.COLUMNS; c++) {
+			this.boxes[Board.ROWS - 1][c].edges.bottom.fill();
+			this.boxes[Board.ROWS - 1][c].remainingEdges--;
+		}
+
+		// Select the left edge of the first column
+		for (let r = 0; r < Board.ROWS; r++) {
+			this.boxes[r][0].edges.left.fill();
+			this.boxes[r][0].remainingEdges--;
+		}
+
+		// Select the right edge of the last column
+		for (let r = 0; r < Board.ROWS; r++) {
+			this.boxes[r][Board.COLUMNS - 1].edges.right.fill();
+			this.boxes[r][Board.COLUMNS - 1].remainingEdges--;
+		}
+	}
+	// generateFillThe
 }
