@@ -128,6 +128,7 @@ class Board {
 	generate() {
 		this.uiRoot.style.gridTemplate = `repeat(${Board.ROWS}, 1fr) / repeat(${Board.COLUMNS}, 1fr)`
 		this.generateBoardBoxes()
+		this.selectEdgesAtStart()
 	}
 
 	getBoxAdjacents(box) {
@@ -141,13 +142,13 @@ class Board {
 			right: (box.column < Board.COLUMNS - 1) ? this.boxes[box.row][box.column + 1] : null,
 			bottom: (box.row < Board.ROWS - 1) ? this.boxes[box.row + 1][box.column] : null,
 			left: (box.column > 0) ? this.boxes[box.row][box.column - 1] : null,
-			
+
 			// for rhombus shape
 			// topLeft: (box.row > 0 && box.column > 0) ? this.boxes[box.row - 1][box.column - 1] : null,
 			// topRight: (box.row > 0 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row - 1][box.column + 1] : null,
 			// bottomLeft: (box.row < Board.ROWS - 1 && box.column > 0) ? this.boxes[box.row + 1][box.column - 1] : null,
 			// bottomRight: (box.row < Board.ROWS - 1 && box.column < Board.COLUMNS - 1) ? this.boxes[box.row + 1][box.column + 1] : null,
-		
+
 		}
 	}
 
@@ -197,6 +198,28 @@ class Board {
 				this.adjacentBoxesToFill = []
 				//Switch the player
 			}, 600)
+		}
+	}
+
+	selectEdgesAtStart() {
+		// Select the top edge of the first row
+		for (let c = 0; c < Board.COLUMNS; c++) {
+			this.boxes[0][c].edges.top.fill()
+		}
+
+		// Select the bottom edge of the last row
+		for (let c = 0; c < Board.COLUMNS; c++) {
+			this.boxes[Board.ROWS - 1][c].edges.bottom.fill()
+		}
+
+		// Select the left edge of the first column
+		for (let r = 0; r < Board.ROWS; r++) {
+			this.boxes[r][0].edges.left.fill()
+		}
+
+		// Select the right edge of the last column
+		for (let r = 0; r < Board.ROWS; r++) {
+			this.boxes[r][Board.COLUMNS - 1].edges.right.fill()
 		}
 	}
 }
